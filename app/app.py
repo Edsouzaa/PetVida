@@ -13,3 +13,12 @@ def get_db():
         database=os.environ.get('DB_NAME', 'petvida_db')
     )
 
+#--------------------------- Aqui é a parte dos pet -------------------------------
+
+@app.route('/pets')
+def listar_pets():
+    db = get_db(); cur = db.cursor(dictionary=True)
+    cur.execute("""SELECT p.*, c.nome AS nome_cliente
+                   FROM pets p JOIN clientes c ON p.cliente_id=c.id ORDER BY p.nome""")
+    dados = cur.fetchall(); cur.close(); db.close()
+    return render_template('pets.html', pets=dados)
