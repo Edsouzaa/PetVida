@@ -1,0 +1,10 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+  namespace: petvida
+spec:
+  serviceName: mysql-service
+  replicas: 1
+  selector:
+    matchLabels:
