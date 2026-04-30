@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-initdb
+  namespace: petvida
+data:
+  init.sql: |
+    CREATE DATABASE IF NOT EXISTS petvida_db;
+    USE petvida_db;
+
+    CREATE TABLE IF NOT EXISTS cliente (
+      id INT PRIMARY KEY AUTO_INCREMENT,
+      nome VARCHAR(100) NOT NULL,
+      telefone VARCHAR(25) NOT NULL,
+      email VARCHAR(200) NOT NULL UNIQUE
+    );
+
+    CREATE TABLE IF NOT EXISTS pet (
+      id INT PRIMARY KEY AUTO_INCREMENT,
+      nome VARCHAR(100) NOT NULL,
+      tipo ENUM('gato', 'cachorro', 'cavalo', 'vaca') NOT NULL,
+      raca VARCHAR(35) NOT NULL,
+      idade INT NOT NULL,
+      id_cliente INT NOT NULL,
+      FOREIGN KEY (id_cliente) REFERENCES cliente(id)
+    );
+
+    CREATE TABLE IF NOT EXISTS atendimento (
+      id INT PRIMARY KEY AUTO_INCREMENT,
+      tipo ENUM('banho', 'tosa') NOT NULL,
+      data_atendimento DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      valor DOUBLE(10,2) NOT NULL,
+      id_pet INT NOT NULL,
+      FOREIGN KEY (id_pet) REFERENCES pet(id)
+    );
+
+    CREATE TABLE IF NOT EXISTS produto (
+      id INT PRIMARY KEY AUTO_INCREMENT,
+      descricao VARCHAR(250) NOT NULL,
+      preco DOUBLE(10,2) NOT NULL,
+      quantidade INT NOT NULL
+    );
