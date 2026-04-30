@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}Produtos{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2><i class="bi bi-box-seam me-2"></i>Produtos</h2>
+  <a href="/produtos/novo" class="btn btn-pv"><i class="bi bi-plus-circle me-1"></i>Novo Produto</a>
+</div>
+<div class="card shadow-sm">
+  <div class="card-body p-0">
+    <table class="table table-hover mb-0">
+      <thead><tr><th>#</th><th>Nome</th><th>Descrição</th><th>Preço</th><th>Estoque</th><th>Ações</th></tr></thead>
+      <tbody>
+      {% for p in produtos %}
+        <tr>
+          <td>{{ p.id }}</td><td>{{ p.nome }}</td><td class="text-muted small">{{ p.descricao }}</td>
+          <td>R$ {{ '%.2f'|format(p.preco) }}</td>
+          <td>
+            {% if p.quantidade_estoque <= 5 %}
+              <span class="badge bg-danger">{{ p.quantidade_estoque }}</span>
+            {% else %}
+              <span class="badge bg-success">{{ p.quantidade_estoque }}</span>
+            {% endif %}
+          </td>
+          <td>
+            <a href="/produtos/editar/{{ p.id }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+            <a href="/produtos/excluir/{{ p.id }}" class="btn btn-sm btn-outline-danger"
+               onclick="return confirm('Excluir produto?')"><i class="bi bi-trash"></i></a>
+          </td>
+        </tr>
+      {% else %}
+        <tr><td colspan="6" class="text-center text-muted py-4">Nenhum produto cadastrado.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

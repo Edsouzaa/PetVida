@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Pets{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2><i class="bi bi-emoji-smile me-2"></i>Pets</h2>
+  <a href="/pets/novo" class="btn btn-pv"><i class="bi bi-plus-circle me-1"></i>Novo Pet</a>
+</div>
+<div class="card shadow-sm">
+  <div class="card-body p-0">
+    <table class="table table-hover mb-0">
+      <thead><tr><th>#</th><th>Nome</th><th>Tipo</th><th>Raça</th><th>Idade</th><th>Tutor</th><th>Ações</th></tr></thead>
+      <tbody>
+      {% for p in pets %}
+        <tr>
+          <td>{{ p.id }}</td><td>{{ p.nome }}</td><td>{{ p.tipo }}</td>
+          <td>{{ p.raca }}</td><td>{{ p.idade }} ano(s)</td><td>{{ p.nome_cliente }}</td>
+          <td>
+            <a href="/pets/editar/{{ p.id }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+            <a href="/pets/excluir/{{ p.id }}" class="btn btn-sm btn-outline-danger"
+               onclick="return confirm('Excluir pet?')"><i class="bi bi-trash"></i></a>
+          </td>
+        </tr>
+      {% else %}
+        <tr><td colspan="7" class="text-center text-muted py-4">Nenhum pet cadastrado.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

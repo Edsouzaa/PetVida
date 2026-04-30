@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h2 class="mb-4"><i class="bi bi-speedometer2 me-2"></i>Dashboard</h2>
+<div class="row g-4 mb-5">
+  {% for icon, label, val, href, cor in [
+    ('bi-people-fill','Clientes', total_clientes,'/clientes','success'),
+    ('bi-emoji-smile-fill','Pets', total_pets,'/pets','info'),
+    ('bi-scissors','Atendimentos', total_atendimentos,'/atendimentos','warning'),
+    ('bi-box-seam-fill','Produtos', total_produtos,'/produtos','danger')
+  ] %}
+  <div class="col-6 col-lg-3">
+    <a href="{{ href }}" class="text-decoration-none">
+      <div class="card card-stat shadow-sm h-100">
+        <div class="card-body d-flex align-items-center gap-3">
+          <i class="bi {{ icon }} fs-2 text-{{ cor }}"></i>
+          <div>
+            <div class="fs-3 fw-bold">{{ val }}</div>
+            <div class="text-muted small">{{ label }}</div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+  {% endfor %}
+</div>
+<div class="row g-4">
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-header bg-white fw-bold"><i class="bi bi-lightning-charge me-1"></i>Acesso Rápido</div>
+      <div class="card-body d-flex flex-wrap gap-2">
+        <a href="/clientes/novo" class="btn btn-pv btn-sm"><i class="bi bi-person-plus me-1"></i>Novo Cliente</a>
+        <a href="/pets/novo" class="btn btn-pv btn-sm"><i class="bi bi-plus-circle me-1"></i>Novo Pet</a>
+        <a href="/atendimentos/novo" class="btn btn-pv btn-sm"><i class="bi bi-calendar-plus me-1"></i>Novo Atendimento</a>
+        <a href="/produtos/novo" class="btn btn-pv btn-sm"><i class="bi bi-box-seam me-1"></i>Novo Produto</a>
+        <a href="/vendas/nova" class="btn btn-outline-success btn-sm"><i class="bi bi-cart-plus me-1"></i>Nova Venda</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-header bg-white fw-bold"><i class="bi bi-info-circle me-1"></i>Sobre o Sistema</div>
+      <div class="card-body">
+        <p class="mb-1"><strong>PetVida</strong> – Sistema de Gestão para Pet Shop</p>
+        <p class="text-muted small mb-0">Gerencie clientes, pets, atendimentos de banho &amp; tosa, produtos, vendas e fornecedores em um único lugar.</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

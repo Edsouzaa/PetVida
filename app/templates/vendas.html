@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Vendas{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2><i class="bi bi-cart3 me-2"></i>Vendas</h2>
+  <a href="/vendas/nova" class="btn btn-pv"><i class="bi bi-cart-plus me-1"></i>Nova Venda</a>
+</div>
+<div class="card shadow-sm">
+  <div class="card-body p-0">
+    <table class="table table-hover mb-0">
+      <thead><tr><th>#</th><th>Cliente</th><th>Produto</th><th>Qtd</th><th>Data</th><th>Total</th></tr></thead>
+      <tbody>
+      {% for v in vendas %}
+        <tr>
+          <td>{{ v.id }}</td><td>{{ v.nome_cliente }}</td><td>{{ v.nome_produto }}</td>
+          <td>{{ v.quantidade }}</td>
+          <td>{{ v.data.strftime('%d/%m/%Y') if v.data else '' }}</td>
+          <td><strong>R$ {{ '%.2f'|format(v.valor_total) }}</strong></td>
+        </tr>
+      {% else %}
+        <tr><td colspan="6" class="text-center text-muted py-4">Nenhuma venda registrada.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

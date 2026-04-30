@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Nova Venda{% endblock %}
+{% block content %}
+<div class="d-flex align-items-center mb-4 gap-2">
+  <a href="/vendas" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left"></i></a>
+  <h2 class="mb-0">Registrar Venda</h2>
+</div>
+<div class="card shadow-sm" style="max-width:520px">
+  <div class="card-body">
+    <form method="post">
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Cliente *</label>
+        <select name="cliente_id" class="form-select" required>
+          {% for c in clientes %}<option value="{{ c.id }}">{{ c.nome }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Produto *</label>
+        <select name="produto_id" class="form-select" required>
+          {% for p in produtos %}
+            <option value="{{ p.id }}">{{ p.nome }} – R$ {{ '%.2f'|format(p.preco) }} (Est: {{ p.quantidade_estoque }})</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Quantidade *</label>
+        <input type="number" name="quantidade" class="form-control" min="1" value="1" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label fw-semibold">Data *</label>
+        <input type="date" name="data" class="form-control" required>
+      </div>
+      <div class="alert alert-info small"><i class="bi bi-info-circle me-1"></i>O valor total será calculado automaticamente (preço × quantidade).</div>
+      <button type="submit" class="btn btn-pv w-100"><i class="bi bi-check-circle me-1"></i>Registrar Venda</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

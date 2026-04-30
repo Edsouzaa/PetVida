@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Atendimentos{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2><i class="bi bi-scissors me-2"></i>Banho &amp; Tosa</h2>
+  <a href="/atendimentos/novo" class="btn btn-pv"><i class="bi bi-calendar-plus me-1"></i>Novo Atendimento</a>
+</div>
+<div class="card shadow-sm">
+  <div class="card-body p-0">
+    <table class="table table-hover mb-0">
+      <thead><tr><th>#</th><th>Pet</th><th>Tutor</th><th>Serviço</th><th>Data</th><th>Valor</th><th>Ações</th></tr></thead>
+      <tbody>
+      {% for a in atendimentos %}
+        <tr>
+          <td>{{ a.id }}</td><td>{{ a.nome_pet }}</td><td>{{ a.nome_cliente }}</td>
+          <td><span class="badge bg-success">{{ a.tipo_servico }}</span></td>
+          <td>{{ a.data.strftime('%d/%m/%Y') if a.data else '' }}</td>
+          <td>R$ {{ '%.2f'|format(a.valor) if a.valor else '0,00' }}</td>
+          <td>
+            <a href="/atendimentos/excluir/{{ a.id }}" class="btn btn-sm btn-outline-danger"
+               onclick="return confirm('Excluir atendimento?')"><i class="bi bi-trash"></i></a>
+          </td>
+        </tr>
+      {% else %}
+        <tr><td colspan="7" class="text-center text-muted py-4">Nenhum atendimento registrado.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
