@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
       app: mysql
-  template:   
+  template:
     metadata:
       labels:
         app: mysql
@@ -18,27 +18,27 @@ spec:
         - name: mysql
           image: mysql:8.0
           ports:
-            - containerPort: 3306   
+            - containerPort: 3306
           env:
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: mysql-secret
+                  name: petvida-secret
                   key: MYSQL_ROOT_PASSWORD
             - name: MYSQL_DATABASE
               valueFrom:
                 secretKeyRef:
-                  name: mysql-secret
+                  name: petvida-secret
                   key: MYSQL_DATABASE
             - name: MYSQL_USER
               valueFrom:
                 secretKeyRef:
-                  name: mysql-secret
+                  name: petvida-secret
                   key: MYSQL_USER
             - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: mysql-secret
+                  name: petvida-secret
                   key: MYSQL_PASSWORD
           volumeMounts:
             - name: mysql-data
@@ -53,7 +53,7 @@ spec:
     - metadata:
         name: mysql-data
       spec:
-        accessModes: ["ReadWriteOnce"]   
+        accessModes: ["ReadWriteOnce"]
         resources:
           requests:
             storage: 1Gi
