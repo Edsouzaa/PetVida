@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}— {{ 'Editar' if pet else 'Novo' }} Pet{% endblock %}
+{% block page_title %}{{ 'Editar' if pet else 'Novo' }} Pet{% endblock %}
+{% block page_sub %}Preencha os dados do pet{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width:660px;">
+  <div class="card-header">
+    <span class="card-title">{{ '✏️ Editando' if pet else '➕ Novo' }} Pet</span>
+  </div>
+  <div class="card-body">
+    <form method="POST">
+      <div class="form-grid">
+        <div class="form-group form-full">
+          <label for="nome">Nome do Pet</label>
+          <input type="text" id="nome" name="nome" required placeholder="Ex.: Rex"
+                 value="{{ pet.nome if pet else '' }}">
+        </div>
+
+        <div class="form-group">
+          <label for="tipo">Tipo</label>
+          <select id="tipo" name="tipo" required>
+            <option value="">Selecione...</option>
+            {% for t in ['cachorro','gato','cavalo','vaca'] %}
+            <option value="{{ t }}" {{ 'selected' if pet and pet.tipo == t }}>
+              {{ t|capitalize }}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="raca">Raça</label>
+          <input type="text" id="raca" name="raca" required placeholder="Ex.: Labrador"
+                 value="{{ pet.raca if pet else '' }}">
+        </div>
+
+        <div class="form-group">
+          <label for="idade">Idade (anos)</label>
+          <input type="number" id="idade" name="idade" required min="0" max="50"
+                 value="{{ pet.idade if pet else '' }}">
+        </div>
+
+        <div class="form-group">
+          <label for="id_cliente">Tutor (Cliente)</label>
+          <select id="id_cliente" name="id_cliente" required>
+            <option value="">Selecione o tutor...</option>
+            {% for c in clientes %}
+            <option value="{{ c.id }}" {{ 'selected' if pet and pet.id_cliente == c.id }}>
+              {{ c.nome }}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+          {{ '💾 Salvar Alterações' if pet else '✅ Cadastrar Pet' }}
+        </button>
+        <a href="{{ url_for('listar_pets') }}" class="btn btn-outline">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}— Clientes{% endblock %}
+{% block page_title %}Clientes{% endblock %}
+{% block page_sub %}{{ clientes|length }} cliente(s) cadastrado(s){% endblock %}
+
+{% block topbar_action %}
+  <a href="{{ url_for('novo_cliente') }}" class="btn btn-primary">＋ Novo Cliente</a>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <span class="card-title">👤 Lista de Clientes</span>
+  </div>
+  {% if clientes %}
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Nome</th>
+        <th>Telefone</th>
+        <th>E-mail</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in clientes %}
+      <tr>
+        <td style="color:var(--muted); font-size:12px;">{{ c.id }}</td>
+        <td><strong>{{ c.nome }}</strong></td>
+        <td>{{ c.telefone }}</td>
+        <td>{{ c.email }}</td>
+        <td>
+          <div class="action-group">
+            <a href="{{ url_for('editar_cliente', id=c.id) }}" class="btn btn-outline btn-sm">✏️ Editar</a>
+            <form action="{{ url_for('excluir_cliente', id=c.id) }}" method="POST"
+                  onsubmit="return confirm('Remover {{ c.nome }}?')">
+              <button class="btn btn-danger btn-sm">🗑️</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="empty-state">
+    <div class="icon">👤</div>
+    <p>Nenhum cliente cadastrado ainda.</p>
+    <br>
+    <a href="{{ url_for('novo_cliente') }}" class="btn btn-primary">Cadastrar primeiro cliente</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

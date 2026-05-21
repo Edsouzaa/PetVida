@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}— Dashboard{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+{% block page_sub %}Visão geral do sistema PetVida{% endblock %}
+
+{% block content %}
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon green">👤</div>
+    <div>
+      <div class="stat-label">Clientes</div>
+      <div class="stat-value">{{ stats.clientes }}</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon amber">🐶</div>
+    <div>
+      <div class="stat-label">Pets</div>
+      <div class="stat-value">{{ stats.pets }}</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon clay">✂️</div>
+    <div>
+      <div class="stat-label">Atendimentos</div>
+      <div class="stat-value">{{ stats.atendimentos }}</div>
+    </div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-icon blue">🛍️</div>
+    <div>
+      <div class="stat-label">Produtos</div>
+      <div class="stat-value">{{ stats.produtos }}</div>
+    </div>
+  </div>
+</div>
+
+<div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">🚀 Ações Rápidas</span>
+    </div>
+    <div class="card-body" style="display:flex; flex-direction:column; gap:10px;">
+      <a href="{{ url_for('novo_cliente') }}"     class="btn btn-outline">👤 Novo Cliente</a>
+      <a href="{{ url_for('novo_pet') }}"         class="btn btn-outline">🐶 Novo Pet</a>
+      <a href="{{ url_for('novo_atendimento') }}" class="btn btn-outline">✂️ Registrar Atendimento</a>
+      <a href="{{ url_for('novo_produto') }}"     class="btn btn-outline">🛍️ Novo Produto</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <span class="card-title">📋 Sobre o Sistema</span>
+    </div>
+    <div class="card-body" style="font-size:14px; color:var(--ink-soft); line-height:1.8;">
+      <p>O <strong>PetVida</strong> é um sistema de gestão completo para pet shops.</p>
+      <br>
+      <p>Gerencie <strong>clientes</strong>, seus <strong>pets</strong>, os <strong>atendimentos</strong> de banho e tosa,
+         e o <strong>estoque de produtos</strong> em um único lugar.</p>
+      <br>
+      <p style="color:var(--muted); font-size:12px;">
+        🐾 Flask · MySQL · Docker · Kubernetes
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

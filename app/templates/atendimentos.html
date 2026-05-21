@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}— Atendimentos{% endblock %}
+{% block page_title %}Atendimentos{% endblock %}
+{% block page_sub %}Histórico de banho e tosa{% endblock %}
+
+{% block topbar_action %}
+  <a href="{{ url_for('novo_atendimento') }}" class="btn btn-primary">＋ Registrar Atendimento</a>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <span class="card-title">Atendimentos Realizados</span>
+  </div>
+  {% if atendimentos %}
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Serviço</th>
+        <th>Pet</th>
+        <th>Tutor</th>
+        <th>Data</th>
+        <th>Valor</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for a in atendimentos %}
+      <tr>
+        <td style="color:var(--muted); font-size:12px;">{{ a.id }}</td>
+        <td>
+          {% if a.tipo == 'banho' %}
+            <span class="badge badge-blue">Banho</span>
+          {% else %}
+            <span class="badge badge-purple">Tosa</span>
+          {% endif %}
+        </td>
+        <td><strong>{{ a.nome_pet }}</strong></td>
+        <td>{{ a.nome_cliente }}</td>
+        <td>{{ a.data_atendimento.strftime('%d/%m/%Y %H:%M') if a.data_atendimento }}</td>
+        <td>
+          <span style="font-weight:600; color:var(--sage);">
+            R$ {{ '%.2f'|format(a.valor) }}
+          </span>
+        </td>
+        <td>
+          <form action="{{ url_for('excluir_atendimento', id=a.id) }}" method="POST"
+                onsubmit="return confirm('Remover atendimento #{{ a.id }}?')">
+            <button class="btn btn-danger btn-sm">🗑️</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="empty-state">
+    <p>Nenhum atendimento registrado ainda.</p>
+    <br>
+    <a href="{{ url_for('novo_atendimento') }}" class="btn btn-primary">Registrar primeiro atendimento</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

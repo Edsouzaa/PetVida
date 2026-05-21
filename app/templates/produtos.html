@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}— Produtos{% endblock %}
+{% block page_title %}Produtos{% endblock %}
+{% block page_sub %}Controle de estoque{% endblock %}
+
+{% block topbar_action %}
+  <a href="{{ url_for('novo_produto') }}" class="btn btn-primary">＋ Novo Produto</a>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <span class="card-title">🛍️ Estoque de Produtos</span>
+  </div>
+  {% if produtos %}
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Descrição</th>
+        <th>Preço</th>
+        <th>Estoque</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in produtos %}
+      <tr>
+        <td style="color:var(--muted); font-size:12px;">{{ p.id }}</td>
+        <td><strong>{{ p.descricao }}</strong></td>
+        <td style="font-weight:600; color:var(--sage);">R$ {{ '%.2f'|format(p.preco) }}</td>
+        <td>{{ p.quantidade }} un.</td>
+        <td>
+          {% if p.quantidade == 0 %}
+            <span class="badge badge-red">⚠️ Sem estoque</span>
+          {% elif p.quantidade <= 5 %}
+            <span class="badge badge-amber">⚡ Estoque baixo</span>
+          {% else %}
+            <span class="badge badge-green">✅ Disponível</span>
+          {% endif %}
+        </td>
+        <td>
+          <div class="action-group">
+            <a href="{{ url_for('editar_produto', id=p.id) }}" class="btn btn-outline btn-sm">✏️ Editar</a>
+            <form action="{{ url_for('excluir_produto', id=p.id) }}" method="POST"
+                  onsubmit="return confirm('Remover {{ p.descricao }}?')">
+              <button class="btn btn-danger btn-sm">🗑️</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="empty-state">
+    <div class="icon">🛍️</div>
+    <p>Nenhum produto cadastrado ainda.</p>
+    <br>
+    <a href="{{ url_for('novo_produto') }}" class="btn btn-primary">Cadastrar primeiro produto</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

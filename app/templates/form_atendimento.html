@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}— Novo Atendimento{% endblock %}
+{% block page_title %}Novo Atendimento{% endblock %}
+{% block page_sub %}Registrar serviço de banho ou tosa{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width:620px;">
+  <div class="card-header">
+    <span class="card-title">✂️ Registrar Atendimento</span>
+  </div>
+  <div class="card-body">
+    <form method="POST">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="tipo">Tipo de Serviço</label>
+          <select id="tipo" name="tipo" required>
+            <option value="">Selecione...</option>
+            <option value="banho">🛁 Banho</option>
+            <option value="tosa">✂️ Tosa</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="id_pet">Pet Atendido</label>
+          <select id="id_pet" name="id_pet" required>
+            <option value="">Selecione o pet...</option>
+            {% for p in pets %}
+            <option value="{{ p.id }}">{{ p.nome }} ({{ p.nome_cliente }})</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="data_atendimento">Data e Hora</label>
+          <input type="datetime-local" id="data_atendimento" name="data_atendimento" required>
+        </div>
+
+        <div class="form-group">
+          <label for="valor">Valor (R$)</label>
+          <input type="number" id="valor" name="valor" required min="0" step="0.01" placeholder="0,00">
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">✅ Registrar Atendimento</button>
+        <a href="{{ url_for('listar_atendimentos') }}" class="btn btn-outline">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Define data/hora atual como padrão
+  const now = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  const local = `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  document.getElementById('data_atendimento').value = local;
+</script>
+{% endblock %}

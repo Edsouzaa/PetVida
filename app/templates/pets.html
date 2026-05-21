@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}— Pets{% endblock %}
+{% block page_title %}Pets{% endblock %}
+{% block page_sub %}{{ pets|length }} pet(s) cadastrado(s){% endblock %}
+
+{% block topbar_action %}
+  <a href="{{ url_for('novo_pet') }}" class="btn btn-primary">＋ Novo Pet</a>
+{% endblock %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+    <span class="card-title">🐾 Lista de Pets</span>
+  </div>
+  {% if pets %}
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Nome</th>
+        <th>Tipo</th>
+        <th>Raça</th>
+        <th>Idade</th>
+        <th>Tutor</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for p in pets %}
+      <tr>
+        <td style="color:var(--muted); font-size:12px;">{{ p.id }}</td>
+        <td><strong>{{ p.nome }}</strong></td>
+        <td>
+          {% set emoji = {'cachorro':'🐶','gato':'🐱','cavalo':'🐴','vaca':'🐄'} %}
+          <span class="badge badge-green">{{ emoji.get(p.tipo, '🐾') }} {{ p.tipo|capitalize }}</span>
+        </td>
+        <td>{{ p.raca }}</td>
+        <td>{{ p.idade }} ano{{ 's' if p.idade != 1 }}</td>
+        <td>{{ p.nome_cliente }}</td>
+        <td>
+          <div class="action-group">
+            <a href="{{ url_for('editar_pet', id=p.id) }}" class="btn btn-outline btn-sm">✏️ Editar</a>
+            <form action="{{ url_for('excluir_pet', id=p.id) }}" method="POST"
+                  onsubmit="return confirm('Remover {{ p.nome }}?')">
+              <button class="btn btn-danger btn-sm">🗑️</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <div class="empty-state">
+    <div class="icon">🐾</div>
+    <p>Nenhum pet cadastrado ainda.</p>
+    <br>
+    <a href="{{ url_for('novo_pet') }}" class="btn btn-primary">Cadastrar primeiro pet</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
